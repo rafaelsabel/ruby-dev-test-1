@@ -1,0 +1,17 @@
+<p id='notice'><%= notice %></p>
+
+<h1>Pastas</h1>
+<%= link_to 'Nova pasta', new_folder_path %>
+
+<table>
+  <tbody>
+    <% @folders.each do |folder| %>
+      <tr>
+        <td><%= folder.name %></td>
+        <td><%= link_to 'Abrir', folder %></td>
+        <td><%= link_to 'Editar', edit_folder_path(folder) %></td>
+        <td><%= link_to 'Excluir', folder, method: :delete, data: { confirm: 'Tem certeza?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

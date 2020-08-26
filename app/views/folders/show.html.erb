@@ -1,0 +1,25 @@
+<p id='notice'><%= notice %></p>
+
+<h3><%= @folder.name %> | <%= link_to 'Voltar', @folder.top_folder ? folder_path(@folder.top_folder.id) : folders_path %></h3>
+
+<%= form_with model: @folder, url: folder_files_path(@folder), method: :post, local: true do |f| %>
+  <%= f.file_field :files, multiple: true %> <%= f.submit 'Upload' %>
+<% end %>
+
+<%= link_to 'Nova pasta', new_folder_path(top_folder_id: @folder.id) %>
+
+<ul>
+  <% @folder.subfolders.each do |subfolder| %>
+    <li>
+      <%= subfolder.name %> <%= link_to 'Abrir', subfolder %> <%= link_to 'Editar', edit_folder_path(subfolder) %> <%= link_to 'Excluir', subfolder, method: :delete, data: { confirm: 'Tem certeza?' } %>
+    </li>
+  <% end %>
+
+  <% @folder.files.each do |file| %>
+    <li>
+      <%= link_to file.filename, url_for(file) %>
+      <%= link_to 'Baixar', rails_blob_path(file, disposition: :attachment) %>
+      <%= link_to 'Excluir', folder_file_path(@folder, file), method: :delete, data: { confirm: 'Tem certeza?' } %>
+    </li>
+  <% end %>
+</ul>
